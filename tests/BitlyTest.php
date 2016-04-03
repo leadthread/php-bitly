@@ -14,7 +14,7 @@ class BitlyTest extends TestCase
     }
 
     public function testItBuildsCorrectRequestUrl(){
-        $r = new Bitly("token","json");
+        $r = new Bitly("token");
         $result = $this->invokeMethod($r,'buildRequestUrl',['http://google.com','testAction']);
         $this->assertEquals($result,"https://api-ssl.bitly.com/v3/testAction?access_token=token&format=json&longUrl=http://google.com");
     }

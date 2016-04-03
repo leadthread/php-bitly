@@ -15,4 +15,4 @@ composer require zenapply/php-bitly
 ```
 
 ## Usage
-__Coming Soon...__
+*Coming Soon...*

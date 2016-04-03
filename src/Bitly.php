@@ -10,19 +10,22 @@ class Bitly
 {
     const V3 = 'v3';
 
+    protected $token;
+    protected $host;
+    protected $version;
+    protected $request;
+
     /**
      * Creates a Calendly instance that can register and unregister webhooks with the API
      * @param string $token   The API token to use
-     * @param string $format  The data format that will be returned; txt, json, or xml.
      * @param string $version The API version to use
      * @param string $host    The Host URL
      * @param string $request The HttpRequest instance that will handle the request
      */
-    public function __construct($token,$format = 'txt',$version = self::V3,$host = "api-ssl.bitly.com", HttpRequest $request = null){
+    public function __construct($token, $version = self::V3, $host = "api-ssl.bitly.com", HttpRequest $request = null){
         $this->request = $request;
         $this->token = $token;
         $this->version = $version;
-        $this->format = $format;
         $this->host = $host;
     }
 
@@ -38,7 +41,7 @@ class Bitly
 
         $data = $this->exec($this->buildRequestUrl($url));
             
-        return $data;
+        return $data['data']['url'];
     }
 
     /**
@@ -48,10 +51,9 @@ class Bitly
      * @return array
      */
     protected function handleResponse($data,$code){
-        $match_arr = [];
-        preg_match("/bit.ly/", $data, $match_arr);
-        if(count($match_arr) === 0){
-            throw new BitlyException("Bitly ".$data);
+        $data = json_decode($data,true);
+        if($data['status_code']>=300 && $data['status_code']<200){
+            throw new BitlyException($data['status_txt']);
         }
         return $data;
     }
@@ -63,7 +65,7 @@ class Bitly
      * @return string         The URL
      */
     protected function buildRequestUrl($url,$action = "shorten"){
-        return "https://{$this->host}/{$this->version}/{$action}?access_token={$this->token}&format={$this->format}&longUrl={$url}";
+        return "https://{$this->host}/{$this->version}/{$action}?access_token={$this->token}&format=json&longUrl={$url}";
     }
 
     /**
