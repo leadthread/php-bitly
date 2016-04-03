@@ -15,4 +15,10 @@ composer require zenapply/php-bitly
 ```
 
 ## Usage
-*Coming Soon...*
+```php
+use Zenapply\Bitly\Bitly;
+$c = new Bitly("Your Bitly API Token");
+$result = $c->shorten("https://www.google.com/");
+var_dump($result);
+// string(21) "http://bit.ly/1SvUIo8"
+```
