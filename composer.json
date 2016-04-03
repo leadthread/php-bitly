@@ -1,0 +1,39 @@
+{
+    "name": "zenapply/php-bitly",
+    "description": "Easily shorten URLs in PHP",
+    "keywords": [
+        "bitly",
+        "shorten",
+        "url",
+        "tylercd100",
+        "zenapply"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/zenapply/php-bitly",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Tyler Arbon",
+            "email": "tylercd100@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5.9 || ^7.0.0",
+        "zenapply/php-request": "^1.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8 || ^5.0"
+    },
+    "autoload":{
+        "psr-4":{
+            "Zenapply\\Bitly\\":"src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zenapply\\Bitly\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+    }
+}
