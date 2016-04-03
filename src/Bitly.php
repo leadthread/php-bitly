@@ -36,7 +36,7 @@ class Bitly
             throw new BitlyException("The URL is empty!");
         }
 
-        $data = $this->exec($this->buildRequestUrl());
+        $data = $this->exec($this->buildRequestUrl($url));
             
         return $data;
     }
@@ -58,10 +58,11 @@ class Bitly
 
     /**
      * Builds the request URL to the Bitly API for a specified action
+     * @param  string $action The long URL
      * @param  string $action The API action
      * @return string         The URL
      */
-    protected function buildRequestUrl($action = "shorten"){
+    protected function buildRequestUrl($url,$action = "shorten"){
         return "https://{$this->host}/{$this->version}/{$action}?access_token={$this->token}&format={$this->format}&longUrl={$url}";
     }
 
