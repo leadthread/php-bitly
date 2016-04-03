@@ -27,6 +27,12 @@ class BitlyTest extends TestCase
         $this->assertEquals($result,"short.com");
     }
 
+    public function testMethodShortenThrowsExceptionWhenUrlIsEmpty(){
+        $this->setExpectedException(BitlyException::class);
+        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
+        $result = $fixture->shorten("");
+    }
+
     public function testMethodShortenThrowsExceptionWhenStatusCodeIsNot200(){
         $this->setExpectedException(BitlyException::class);
         $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":500,"status_txt":"An Error occurred!"');
