@@ -47,10 +47,9 @@ class Bitly
     /**
      * Returns the response data or throws an Exception if it was unsuccessful
      * @param  string  $data   The data from the response
-     * @param  integer $code   The HTTP response code
      * @return array
      */
-    protected function handleResponse($data,$code){
+    protected function handleResponse($data){
         $data = json_decode($data,true);
         if($data['status_code']>=300 && $data['status_code']<200){
             throw new BitlyException($data['status_txt']);
@@ -97,10 +96,8 @@ class Bitly
         ]);
 
         $result = $request->execute();
-        $code   = $request->getInfo(CURLINFO_HTTP_CODE);
-        
         $request->close();
 
-        return $this->handleResponse($result,$code);
+        return $this->handleResponse($result);
     }
 }
