@@ -51,7 +51,7 @@ class Bitly
      */
     protected function handleResponse($data){
         $data = json_decode($data,true);
-        if($data['status_code']>=300 && $data['status_code']<200){
+        if($data['status_code']>=300 || $data['status_code']<200){
             throw new BitlyException($data['status_txt']);
         }
         return $data;
