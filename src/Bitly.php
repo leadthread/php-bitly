@@ -3,8 +3,7 @@
 namespace Zenapply\Bitly;
 
 use Zenapply\Bitly\Exceptions\BitlyException;
-use Zenapply\Request\HttpRequest;
-use Zenapply\Request\CurlRequest;
+use GuzzleHttp\Client;
 
 class Bitly
 {
@@ -13,17 +12,17 @@ class Bitly
     protected $token;
     protected $host;
     protected $version;
-    protected $request;
+    protected $client;
 
     /**
      * Creates a Calendly instance that can register and unregister webhooks with the API
      * @param string $token   The API token to use
      * @param string $version The API version to use
      * @param string $host    The Host URL
-     * @param string $request The HttpRequest instance that will handle the request
+     * @param string $client  The Client instance that will handle the http request
      */
-    public function __construct($token, $version = self::V3, $host = "api-ssl.bitly.com", HttpRequest $request = null){
-        $this->request = $request;
+    public function __construct($token, $version = self::V3, $host = "api-ssl.bitly.com", Client $client = null){
+        $this->client = $client;
         $this->token = $token;
         $this->version = $version;
         $this->host = $host;
@@ -68,16 +67,15 @@ class Bitly
     }
 
     /**
-     * Returns the HttpRequest instance
-     * @param  string $url The URL to request
-     * @return HttpRequest
+     * Returns the Client instance
+     * @return Client
      */
-    protected function getRequest($url){
-        $request = $this->request;
-        if(!$request instanceof HttpRequest){
-            $request = new CurlRequest($url);
+    protected function getRequest(){
+        $client = $this->client;
+        if(!$client instanceof Client){
+            $client = new Client();
         }
-        return $request;
+        return $client;
     }
 
     /**
@@ -87,17 +85,8 @@ class Bitly
      */ 
     protected function exec($url)
     {
-        $request = $this->getRequest($url);
-
-        $request->setOptionArray([
-            CURLOPT_URL => $url,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
-
-        $result = $request->execute();
-        $request->close();
-
-        return $this->handleResponse($result);
+        $client = $this->getRequest();
+        $response = $client->request('GET',$url);
+        return $this->handleResponse($response->getBody());
     }
 }

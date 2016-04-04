@@ -4,7 +4,8 @@ namespace Zenapply\Bitly\Tests;
 
 use Zenapply\Bitly\Bitly;
 use Zenapply\Bitly\Exceptions\BitlyException;
-use Zenapply\Request\HttpRequest;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 
 class BitlyTest extends TestCase
 {
@@ -40,11 +41,17 @@ class BitlyTest extends TestCase
     }
 
     protected function getBitlyWithMockedHttpRequest($data){
-        $http = $this->getMock(HttpRequest::class);
+        $http = $this->getMock(Client::class);
+
+        $resp = $this->getMock(Response::class);
+
+        $resp->expects($this->any())
+             ->method('getBody')
+             ->will($this->returnValue($data));
 
         $http->expects($this->any())
-             ->method('execute')
-             ->will($this->returnValue($data));
+             ->method('request')
+             ->will($this->returnValue($resp));
 
         // create class under test using $http instead of a real CurlRequest
         return new Bitly("Token","v1","foo.com",$http);
