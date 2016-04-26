@@ -18,14 +18,38 @@ class BitlyTest extends TestCase
 
     public function testItBuildsCorrectRequestUrl(){
         $r = new Bitly("token");
-        $result = $this->invokeMethod($r,'buildRequestUrl',['http://google.com','testAction']);
-        $this->assertEquals($result,"https://api-ssl.bitly.com/v3/testAction?access_token=token&format=json&longUrl=http://google.com");
+        $result = $this->invokeMethod($r,'buildRequestUrl',['https://google.com','testAction']);
+        $this->assertEquals("https://api-ssl.bitly.com/v3/testAction?access_token=token&format=json&longUrl=https://google.com",$result);
+    }
+
+    public function testItCorrectsAUrlByAddingAProtocolToIt(){
+        $r = new Bitly("token");
+        $result = $this->invokeMethod($r,'fixUrl',['google.com',false]);
+        $this->assertEquals("http://google.com",$result);
+    }
+
+    public function testItDoesntAddAProtocolOnToAUrlWithAProtocol(){
+        $r = new Bitly("token");
+        $result = $this->invokeMethod($r,'fixUrl',['https://google.com',false]);
+        $this->assertEquals("https://google.com",$result);
+    }
+
+    public function testItEncodesAUrl(){
+        $r = new Bitly("token");
+        $result = $this->invokeMethod($r,'fixUrl',['https://google.com',true]);
+        $this->assertEquals("https%3A%2F%2Fgoogle.com",$result);
     }
 
     public function testMethodShorten(){
         $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
         $result = $fixture->shorten("long.com");
-        $this->assertEquals($result,"short.com");
+        $this->assertEquals("short.com",$result);
+    }
+
+    public function testMethodShortenAddsOnProtocol(){
+        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
+        $result = $fixture->shorten("long.com");
+        $this->assertEquals("short.com",$result);
     }
 
     public function testMethodShortenThrowsExceptionWhenUrlIsEmpty(){

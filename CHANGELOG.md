@@ -2,6 +2,9 @@
 
 All notable changes to `php-bitly` will be documented in this file.
 
+### 1.1.1
+- Fixes URLs that dont have a protocol by adding `http://` onto the front of them
+
 ### 1.1.0
 - Changed dependency from zenapply/php-request to guzzlehttp/guzzle
 

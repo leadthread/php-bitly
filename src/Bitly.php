@@ -28,15 +28,13 @@ class Bitly
         $this->host = $host;
     }
 
-    public function shorten($url,$encode = true)
+    public function shorten($url, $encode = true)
     {
-        if($encode){
-            $url = urlencode($url);
-        }
-
         if (empty($url)) {
             throw new BitlyException("The URL is empty!");
         }
+
+        $url = $this->fixUrl($url, $encode);
 
         $data = $this->exec($this->buildRequestUrl($url));
             
@@ -54,6 +52,24 @@ class Bitly
             throw new BitlyException($data['status_txt']);
         }
         return $data;
+    }
+
+    /**
+     * Returns a corrected URL
+     * @param  string  $url    The URL to modify
+     * @param  boolean $encode Whether or not to encode the URL
+     * @return string          The corrected URL
+     */
+    protected function fixUrl($url, $encode){
+        if(strpos($url, "http") !== 0){
+            $url = "http://".$url;
+        }
+
+        if($encode){
+            $url = urlencode($url);
+        }
+
+        return $url;
     }
 
     /**
