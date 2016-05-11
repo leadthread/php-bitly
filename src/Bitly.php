@@ -2,7 +2,8 @@
 
 namespace Zenapply\Bitly;
 
-use Zenapply\Bitly\Exceptions\BitlyException;
+use Zenapply\Bitly\Exceptions\BitlyErrorException;
+use Zenapply\Bitly\Exceptions\BitlyRateLimitException;
 use GuzzleHttp\Client;
 
 class Bitly
@@ -31,7 +32,7 @@ class Bitly
     public function shorten($url, $encode = true)
     {
         if (empty($url)) {
-            throw new BitlyException("The URL is empty!");
+            throw new BitlyErrorException("The URL is empty!");
         }
 
         $url = $this->fixUrl($url, $encode);
@@ -49,7 +50,14 @@ class Bitly
     protected function handleResponse($data){
         $data = json_decode($data,true);
         if($data['status_code']>=300 || $data['status_code']<200){
-            throw new BitlyException($data['status_txt']);
+            switch ($data['status_txt']) {
+                case 'RATE_LIMIT_EXCEEDED':
+                    throw new BitlyRateLimitException;
+                    break;
+                default:
+                    throw new BitlyErrorException($data['status_txt']);
+                    break;
+            }
         }
         return $data;
     }

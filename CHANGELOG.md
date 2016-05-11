@@ -2,6 +2,9 @@
 
 All notable changes to `php-bitly` will be documented in this file.
 
+### 1.2.0
+- Added two new exceptions. BitlyRateLimitException and BitlyErrorException.
+
 ### 1.1.1
 - Fixes URLs that dont have a protocol by adding `http://` onto the front of them
 

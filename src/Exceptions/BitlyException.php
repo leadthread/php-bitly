@@ -2,7 +2,7 @@
 
 namespace Zenapply\Bitly\Exceptions;
 
-class BitlyException extends \Exception
+abstract class BitlyException extends \Exception
 {
 
 }
