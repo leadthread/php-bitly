@@ -12,30 +12,30 @@ class BitlyTest extends TestCase
     protected $request;
 
     public function testItCreatesAnInstanceOfHttpRequest(){
-        $r = new Bitly("token");
+        $r = new Bitly("user","pass");
         $this->assertInstanceOf(Bitly::class,$r);
     }
 
     public function testItBuildsCorrectRequestUrl(){
-        $r = new Bitly("token");
-        $result = $this->invokeMethod($r,'buildRequestUrl',['https://google.com','testAction']);
-        $this->assertEquals("https://api-ssl.bitly.com/v3/testAction?access_token=token&format=json&longUrl=https://google.com",$result);
+        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
+        $result = $this->invokeMethod($fixture,'buildRequestUrl',['https://google.com','testAction']);
+        $this->assertEquals("https://foo.com/v1/testAction?access_token=1234jkljqwe12s5tadf&format=json&longUrl=https://google.com",$result);
     }
 
     public function testItCorrectsAUrlByAddingAProtocolToIt(){
-        $r = new Bitly("token");
+        $r = new Bitly("user","pass");
         $result = $this->invokeMethod($r,'fixUrl',['google.com',false]);
         $this->assertEquals("http://google.com",$result);
     }
 
     public function testItDoesntAddAProtocolOnToAUrlWithAProtocol(){
-        $r = new Bitly("token");
+        $r = new Bitly("user","pass");
         $result = $this->invokeMethod($r,'fixUrl',['https://google.com',false]);
         $this->assertEquals("https://google.com",$result);
     }
 
     public function testItEncodesAUrl(){
-        $r = new Bitly("token");
+        $r = new Bitly("user","pass");
         $result = $this->invokeMethod($r,'fixUrl',['https://google.com',true]);
         $this->assertEquals("https%3A%2F%2Fgoogle.com",$result);
     }
@@ -54,17 +54,17 @@ class BitlyTest extends TestCase
 
     public function testMethodShortenThrowsExceptionWhenUrlIsEmpty(){
         $this->setExpectedException(BitlyException::class);
-        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
+        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}',false);
         $result = $fixture->shorten("");
     }
 
     public function testMethodShortenThrowsExceptionWhenStatusCodeIsNot200(){
         $this->setExpectedException(BitlyException::class);
-        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":500,"status_txt":"An Error occurred!"');
+        $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":500,"status_txt":"An Error occurred!"}');
         $result = $fixture->shorten("long.com");
     }
 
-    protected function getBitlyWithMockedHttpRequest($data){
+    protected function getBitlyWithMockedHttpRequest($data, $shouldGetAuthToken = true){
         $http = $this->getMock(Client::class);
 
         $resp = $this->getMock(Response::class);
@@ -77,8 +77,16 @@ class BitlyTest extends TestCase
              ->method('request')
              ->will($this->returnValue($resp));
 
+        $mock = $this->getMock(Bitly::class,['getToken'],["Username","Pass","v1","foo.com",$http]);
+
+        if($shouldGetAuthToken){
+            $mock->expects($this->once())
+                 ->method('getToken')
+                 ->will($this->returnValue("1234jkljqwe12s5tadf"));
+        }
+
         // create class under test using $http instead of a real CurlRequest
-        return new Bitly("Token","v1","foo.com",$http);
+        return $mock;
     }
 
 }
