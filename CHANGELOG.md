@@ -2,8 +2,8 @@
 
 All notable changes to `php-bitly` will be documented in this file.
 
-### 1.2.1
-- Fixed exceptions
+### 2.0.0
+- Now using OAuth2 for bitly
 
 ### 1.2.0
 - Added two new exceptions. BitlyRateLimitException and BitlyErrorException.
