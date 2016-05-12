@@ -2,6 +2,9 @@
 
 All notable changes to `php-bitly` will be documented in this file.
 
+### 1.2.1
+- Fixed exceptions
+
 ### 1.2.0
 - Added two new exceptions. BitlyRateLimitException and BitlyErrorException.
 
