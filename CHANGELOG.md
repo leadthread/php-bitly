@@ -3,7 +3,7 @@
 All notable changes to `php-bitly` will be documented in this file.
 
 ### 3.0.0
-- Correctly using OAuth2
+- Correctly using OAuth2 now by using a developer token instead of a username and password combination
 
 ### 2.0.0
 - Now using OAuth2 for bitly
