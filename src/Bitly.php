@@ -11,24 +11,21 @@ class Bitly
 {
     const V3 = 'v3';
 
-    protected $username;
-    protected $password;
     protected $host;
     protected $version;
     protected $client;
     protected $token;
 
     /**
-     * Creates a Calendly instance that can register and unregister webhooks with the API
-     * @param string $username   The API username to use
+     * Creates a Bitly instance that can register and unregister webhooks with the API
+     * @param string $token   The API token to authenticate with
      * @param string $version The API version to use
      * @param string $host    The Host URL
      * @param string $client  The Client instance that will handle the http request
      */
-    public function __construct($username, $password, $version = self::V3, $host = "api-ssl.bitly.com", Client $client = null){
+    public function __construct($token, $version = self::V3, $host = "api-ssl.bitly.com", Client $client = null){
         $this->client = $client;
-        $this->username = $username;
-        $this->password = $password;
+        $this->token = $token;
         $this->version = $version;
         $this->host = $host;
     }
@@ -118,18 +115,6 @@ class Bitly
             $client = new Client();
         }
         return $client;
-    }
-
-    /**
-     * Gets a token from OAUTH2
-     * @return string The token
-     */
-    protected function getToken(){
-        $client = $this->getRequest();
-        $response = $client->request('POST',"https://{$this->host}/oauth/access_token",[
-            'auth' => [$this->username, $this->password]
-        ]);
-        return $this->handleResponse($response->getBody());
     }
 
     /**
