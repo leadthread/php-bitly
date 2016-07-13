@@ -77,9 +77,8 @@ class BitlyTest extends TestCase
              ->method('request')
              ->will($this->returnValue($resp));
 
-        $mock = $this->getMock(Bitly::class,[],["Token","v1","foo.com",$http]);
+        $mock = new Bitly("Token","v1","foo.com",$http);
 
-        // create class under test using $http instead of a real CurlRequest
         return $mock;
     }
 
