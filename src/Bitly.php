@@ -98,10 +98,6 @@ class Bitly
      * @return string         The URL
      */
     protected function buildRequestUrl($url,$action = "shorten"){
-        if (empty($this->token)) {
-            $this->token = $this->getToken();
-        }
-        
         return "https://{$this->host}/{$this->version}/{$action}?access_token={$this->token}&format=json&longUrl={$url}";
     }
 

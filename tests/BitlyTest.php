@@ -19,7 +19,7 @@ class BitlyTest extends TestCase
     public function testItBuildsCorrectRequestUrl(){
         $fixture = $this->getBitlyWithMockedHttpRequest('{"status_code":200,"data":{"url":"short.com"}}');
         $result = $this->invokeMethod($fixture,'buildRequestUrl',['https://google.com','testAction']);
-        $this->assertEquals("https://foo.com/v1/testAction?access_token=1234jkljqwe12s5tadf&format=json&longUrl=https://google.com",$result);
+        $this->assertEquals("https://foo.com/v1/testAction?access_token=Token&format=json&longUrl=https://google.com",$result);
     }
 
     public function testItCorrectsAUrlByAddingAProtocolToIt(){
