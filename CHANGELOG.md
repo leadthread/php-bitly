@@ -2,6 +2,10 @@
 
 All notable changes to `php-bitly` will be documented in this file.
 
+### 4.0.0
+- Changed ownership from zenapply to leadthread
+- Namespace changes
+
 ### 3.0.0
 - Correctly using OAuth2 now by using a developer token instead of a username and password combination
 

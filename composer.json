@@ -1,5 +1,5 @@
 {
-    "name": "zenapply/php-bitly",
+    "name": "leadthread/php-bitly",
     "description": "Easily shorten URLs in PHP",
     "keywords": [
         "bitly",
@@ -9,7 +9,7 @@
         "zenapply"
     ],
     "license": "MIT",
-    "homepage": "https://github.com/zenapply/php-bitly",
+    "homepage": "https://github.com/leadthread/php-bitly",
     "minimum-stability": "stable",
     "authors": [
         {
@@ -26,12 +26,12 @@
     },
     "autoload":{
         "psr-4":{
-            "Zenapply\\Bitly\\":"src/"
+            "LeadThread\\Bitly\\":"src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zenapply\\Bitly\\Tests\\": "tests/"
+            "LeadThread\\Bitly\\Tests\\": "tests/"
         }
     },
     "suggest": {

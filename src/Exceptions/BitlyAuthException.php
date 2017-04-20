@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenapply\Bitly\Exceptions;
+namespace LeadThread\Bitly\Exceptions;
 
 class BitlyAuthException extends BitlyException
 {

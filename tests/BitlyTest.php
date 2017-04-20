@@ -1,9 +1,9 @@
 <?php
 
-namespace Zenapply\Bitly\Tests;
+namespace LeadThread\Bitly\Tests;
 
-use Zenapply\Bitly\Bitly;
-use Zenapply\Bitly\Exceptions\BitlyException;
+use LeadThread\Bitly\Bitly;
+use LeadThread\Bitly\Exceptions\BitlyException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 

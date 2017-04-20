@@ -1,10 +1,10 @@
 <?php
 
-namespace Zenapply\Bitly;
+namespace LeadThread\Bitly;
 
-use Zenapply\Bitly\Exceptions\BitlyAuthException;
-use Zenapply\Bitly\Exceptions\BitlyErrorException;
-use Zenapply\Bitly\Exceptions\BitlyRateLimitException;
+use LeadThread\Bitly\Exceptions\BitlyAuthException;
+use LeadThread\Bitly\Exceptions\BitlyErrorException;
+use LeadThread\Bitly\Exceptions\BitlyRateLimitException;
 use GuzzleHttp\Client;
 
 class Bitly

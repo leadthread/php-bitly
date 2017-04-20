@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenapply\Bitly\Tests;
+namespace LeadThread\Bitly\Tests;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {
