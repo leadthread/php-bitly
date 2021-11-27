@@ -10,7 +10,7 @@
     ],
     "license": "MIT",
     "homepage": "https://github.com/leadthread/php-bitly",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Tyler Arbon",
